@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -18,7 +19,24 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-   
+    loadData();
+  }
+
+  void loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    double? vkikayit = prefs.getDouble('vki');
+    double? sukayit = prefs.getDouble('su');
+
+    print('vki gelen: $vkikayit');
+    print('su gelen: $sukayit');
+
+    setState(() {
+      vki = vkikayit ?? 0.0; // null check ve varsayılan değer ataması
+      su_ihtiyac = sukayit ?? 0.0; // null check ve varsayılan değer ataması
+    });
+
+    print('bitti');
   }
 
   @override
@@ -82,6 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onPressed: () {
                     vkiHesapla();
                     gunluksuHesapla();
+                    saveData();
                   },
                   child: Text('Hesapla')),
               Text('Vücut Kitle Endeksiniz:' + vki.toString()),
@@ -136,5 +155,15 @@ class _SettingsPageState extends State<SettingsPage> {
         _imagePath = "images/obez.png";
       }
     });
+  }
+
+  void saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Double değer kaydetme
+    prefs.setDouble('vki', vki);
+    print('vki kaydedildi.');
+    prefs.setDouble('su', su_ihtiyac);
+    print('su kaydedildi.');
   }
 }

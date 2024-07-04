@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _imagePath = "images/insan_vucudu.png"; 
+  String _imagePath = "images/calinti_insan.png"; 
   void _incrementCounter() {
     setState(() {
       _counter=_counter+200;
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Color.fromARGB(255, 8, 0, 255),)),
              
               Image.asset(
-                "images/insan_vucudu.png",
+                "images/calinti_insan.png",
                 width: 500,
                 height:400,
               ),
