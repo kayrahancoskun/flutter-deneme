@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
- 
   runApp(const MyApp());
 }
 
@@ -36,18 +35,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _imagePath = "images/calinti_insan.png"; 
+  String _imagePath = "images/calinti_insan.png";
+  double hedeflenen = 0.0;
   void _incrementCounter() {
     setState(() {
-      _counter=_counter+200;
+      _counter = _counter + 200;
     });
   }
+
   @override
-    void initState() {
-      super.initState();
-     
+  void initState() {
+    super.initState();
+    loadData();
   }
- 
+
   void _setImageBasedOnVki(double vki) {
     setState(() {
       if (vki < 18.5) {
@@ -60,6 +61,22 @@ class _MyHomePageState extends State<MyHomePage> {
         _imagePath = "images/obez.png";
       }
     });
+  }
+
+  void loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    double? vkikayit = prefs.getDouble('vki');
+    double? sukayit = prefs.getDouble('su');
+
+    print('vki gelen: $vkikayit');
+    print('su gelen: $sukayit');
+
+    setState(() {
+      hedeflenen = sukayit ?? 0.0; // null check ve varsayılan değer ataması
+    });
+
+    print('bitti');
   }
 
   @override
@@ -81,15 +98,25 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-               Text('$_counter/2500ml',
+              Text('$_counter/$hedeflenen',
                   style: TextStyle(
-                      color: Color.fromARGB(255, 8, 0, 255),)),
-             
-              Image.asset(
-                "images/calinti_insan.png",
-                width: 500,
-                height:400,
-              ),
+                    color: Color.fromARGB(255, 4, 255, 0),
+                  )),
+              Container(
+                width: 200,
+                height: 250,
+                  color: Colors.black,
+                  margin: EdgeInsets.all(50),
+                  alignment: Alignment(-0.9, 0.9),
+                  child: Text(
+                    "flutter container",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25),
+                  )),
+
+              // Container
             ]),
       ),
       floatingActionButton: FloatingActionButton(
