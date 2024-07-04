@@ -14,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   int? kilo = 0;
   double vki = 0.0;
   double su_ihtiyac = 0.0;
-  String _imagePath = "images/insan_vucudu.png";
+  String _imagePath = "";
 
   @override
   void initState() {
@@ -103,8 +103,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     saveData();
                   },
                   child: Text('Hesapla')),
-              Text('Vücut Kitle Endeksiniz:' + vki.toString()),
-              Text('Günlük Su İhtiyacınız:' + su_ihtiyac.toString()),
+              Text('Vücut Kitle Endeksiniz:' + vki.toStringAsFixed(2)),
+              Text('Günlük Su İhtiyacınız:' + su_ihtiyac.toStringAsFixed(2)),
               Image.asset(
                 decideImage(),
                 width: 500,
@@ -132,27 +132,30 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   String decideImage() {
-    if (vki < 18.5) {
-      return "images/insan_vucudu.png";
+      if (vki<1){
+         return "images/elmali_turta4.png";
+      }
+      if (vki < 18.5) {
+      return "images/zayif.png";
     } else if (vki >= 18.5 && vki < 24.9) {
-      return "images/normal_vucut.png";
+      return "images/normal.png";
     } else if (vki >= 25 && vki < 29.9) {
-      return "images/hafif_obez.png";
+      return "images/kilolu.png";
     } else {
-      return "images/obez.png";
+      return "images/obEZZ.png";
     }
   }
 
   void _setImageBasedOnVki(double vki) {
     setState(() {
       if (vki < 18.5) {
-        _imagePath = "images/insan_vucudu.png";
+        _imagePath = "images/zayif.png";
       } else if (vki >= 18.5 && vki < 24.9) {
-        _imagePath = "images/normal_vucut.png";
+        _imagePath = "images/normal.png";
       } else if (vki >= 25 && vki < 29.9) {
-        _imagePath = "images/hafif_obez.png";
+        _imagePath = "images/kilolu.png";
       } else {
-        _imagePath = "images/obez.png";
+        _imagePath = "images/obEZZ.png";
       }
     });
   }

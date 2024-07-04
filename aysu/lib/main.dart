@@ -35,11 +35,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _imagePath = "images/calinti_insan.png";
+  String _imagePath = "images/elmali_turta4.png";
   double hedeflenen = 0.0;
+  double sonuc=0.0;
   void _incrementCounter() {
     setState(() {
       _counter = _counter + 200;
+      gradientHesapla();
     });
   }
 
@@ -52,11 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _setImageBasedOnVki(double vki) {
     setState(() {
       if (vki < 18.5) {
-        _imagePath = "images/insan_vucudu.png";
+        _imagePath = "images/zayif.png";
       } else if (vki >= 18.5 && vki < 24.9) {
-        _imagePath = "images/normal_vucut.png";
+        _imagePath = "images/normal.png";
       } else if (vki >= 25 && vki < 29.9) {
-        _imagePath = "images/hafif_obez.png";
+        _imagePath = "images/kilolu.png";
       } else {
         _imagePath = "images/obez.png";
       }
@@ -77,6 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     print('bitti');
+  }
+  void gradientHesapla(){
+    double icilecekMl= hedeflenen*1000;
+   sonuc=(( _counter*100)/icilecekMl)/100;
+   print(sonuc);
   }
 
   @override
@@ -103,11 +110,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Color.fromARGB(255, 4, 255, 0),
                   )),
               Container(
-                width: 200,
-                height: 250,
-                  color: Colors.black,
+                  decoration:  BoxDecoration(
+                      gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: [sonuc,1-sonuc],
+                    colors: <Color>[Color.fromARGB(255, 25, 51, 244), Color.fromARGB(255, 255, 255, 255)],
+                  )),
+                  width: 200,
+                  height: 250,
                   margin: EdgeInsets.all(50),
-                  alignment: Alignment(-0.9, 0.9),
+                  // alignment: Alignment(-0.9, 0.9),
                   child: Text(
                     "flutter container",
                     style: TextStyle(
