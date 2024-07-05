@@ -111,11 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   )),
               Container(
                   decoration:  BoxDecoration(
-                      gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    stops: [sonuc,1-sonuc],
-                    colors: <Color>[Color.fromARGB(255, 25, 51, 244), Color.fromARGB(255, 255, 255, 255)],
+                      gradient:LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [1-sonuc,sonuc],
+                    colors: <Color>[Color(0xFF111E47), Color.fromARGB(255, 12, 138, 255)],
                   )),
                   width: 200,
                   height: 250,
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     "flutter container",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: const Color.fromARGB(255, 0, 0, 0),
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
                   )),
