@@ -1,5 +1,7 @@
 import 'package:aysu/Pages/Settings.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -37,12 +39,20 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String _imagePath = "images/elmali_turta4.png";
   double hedeflenen = 0.0;
-  double sonuc=0.0;
+  double sonuc = 0.0;
   void _incrementCounter() {
     setState(() {
       _counter = _counter + 200;
       gradientHesapla();
     });
+    if (_counter >= hedeflenen * 1000) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Hedefe Ulaştınız.',
+          confirmBtnText: "Tamam",
+          title: "Tebrikler!");
+    }
   }
 
   @override
@@ -80,10 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     print('bitti');
   }
-  void gradientHesapla(){
-    double icilecekMl= hedeflenen*1000;
-   sonuc=(( _counter*100)/icilecekMl)/100;
-   print(sonuc);
+
+  void gradientHesapla() {
+    double icilecekMl = hedeflenen * 1000;
+    sonuc = ((_counter * 100) / icilecekMl) / 100;
+    print(sonuc);
   }
 
   @override
@@ -110,12 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Color.fromARGB(255, 4, 255, 0),
                   )),
               Container(
-                  decoration:  BoxDecoration(
-                      gradient:LinearGradient(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    stops: [1-sonuc,sonuc],
-                    colors: <Color>[Color(0xFF111E47), Color.fromARGB(255, 12, 138, 255)],
+                    stops: [sonuc, sonuc],
+                    colors: <Color>[
+                      Color.fromARGB(255, 255, 255, 255),
+                      Color.fromARGB(255, 12, 138, 255)
+                    ],
                   )),
                   width: 200,
                   height: 250,
