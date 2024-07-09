@@ -137,8 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Color.fromARGB(255, 12, 138, 255)
                     ],
                   )),
-                  width: 400,
-                  height: 450,
+                  width: MediaQuery.of(context).size.width * 0.100,
+                  height: MediaQuery.of(context).size.height * 0.100,
                   margin: EdgeInsets.all(50),
                   // alignment: Alignment(-0.9, 0.9),
                   child: Text(
