@@ -132,10 +132,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   String decideImage() {
-      if (vki<1){
-         return "images/elmali_turta4.png";
-      }
-      if (vki < 18.5) {
+    if (vki < 1) {
+      return "images/elmali_turta4.png";
+    }
+    if (vki < 18.5) {
       return "images/zayif.png";
     } else if (vki >= 18.5 && vki < 24.9) {
       return "images/normal.png";
@@ -168,5 +168,27 @@ class _SettingsPageState extends State<SettingsPage> {
     print('vki kaydedildi.');
     prefs.setDouble('su', su_ihtiyac);
     print('su kaydedildi.');
+
+    DateTime now = DateTime.now();
+    prefs.setString('tarih', now.toString());
+
+    void resetDailyData() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      DateTime now = DateTime.now();
+      DateTime lastReset = DateTime.tryParse(prefs.getString('last_reset')!) ??
+          now.subtract(Duration(days: 1));
+
+      if (lastReset.day != now.day) {
+        // Günlük sıfırlama işlemleri
+        prefs.setInt('su_icildi', 0); // Örneğin su içme sayacı
+        prefs.setBool(
+            'exceeded_limit_today', false); // Günlük limit aşım kontrolü
+
+        // Son sıfırlama tarihini güncelle
+        await prefs.setString('last_reset', now.toIso8601String());
+        print(lastReset);
+        saveData();
+      }
+    }
   }
 }

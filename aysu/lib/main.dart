@@ -36,11 +36,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _counter = 0;
   String _imagePath = "images/elmali_turta4.png";
   double hedeflenen = 0.0;
   double sonuc = 0.0;
-  void _incrementCounter() {
+  void _incrementCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _counter = _counter + 200;
       gradientHesapla();
@@ -53,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
           confirmBtnText: "Tamam",
           title: "Tebrikler!");
     }
+    prefs.setDouble('icilen_su', _counter);
+    print('içilen su kaydedildi.${_counter}');
   }
 
   @override
@@ -77,21 +80,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     double? vkikayit = prefs.getDouble('vki');
     double? sukayit = prefs.getDouble('su');
+    _counter = prefs.getDouble('icilen_su')!;
 
     print('vki gelen: $vkikayit');
     print('su gelen: $sukayit');
 
     setState(() {
       hedeflenen = sukayit ?? 0.0; // null check ve varsayılan değer ataması
+      _counter;
     });
+    gradientHesapla();
 
     print('bitti');
   }
 
-  void gradientHesapla() {
+  void gradientHesapla() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     double icilecekMl = hedeflenen * 1000;
     sonuc = ((_counter * 100) / icilecekMl) / 100;
     print(sonuc);
@@ -131,8 +137,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Color.fromARGB(255, 12, 138, 255)
                     ],
                   )),
-                  width: 200,
-                  height: 250,
+                  width: 400,
+                  height: 450,
                   margin: EdgeInsets.all(50),
                   // alignment: Alignment(-0.9, 0.9),
                   child: Text(
