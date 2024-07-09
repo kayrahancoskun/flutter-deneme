@@ -168,6 +168,8 @@ class _SettingsPageState extends State<SettingsPage> {
     print('vki kaydedildi.');
     prefs.setDouble('su', su_ihtiyac);
     print('su kaydedildi.');
+    prefs.setDouble('icilen_su', 0.0);
+    print('icilen_su kaydedildi.');
 
     DateTime now = DateTime.now();
     prefs.setString('tarih', now.toString());

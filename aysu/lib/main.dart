@@ -91,13 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
       hedeflenen = sukayit ?? 0.0; // null check ve varsayılan değer ataması
       _counter;
     });
+    prefs.setDouble('icilen_su', _counter);
+    print('içilen su kaydedildi.${_counter}');
     gradientHesapla();
 
     print('bitti');
   }
 
   void gradientHesapla() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     double icilecekMl = hedeflenen * 1000;
     sonuc = ((_counter * 100) / icilecekMl) / 100;
     print(sonuc);
@@ -122,7 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('$_counter/$hedeflenen',
+              Text(
+                  _counter.toString() +
+                      '/' +
+                      (hedeflenen * 1000).toStringAsFixed(0),
                   style: TextStyle(
                     color: Color.fromARGB(255, 4, 255, 0),
                   )),
