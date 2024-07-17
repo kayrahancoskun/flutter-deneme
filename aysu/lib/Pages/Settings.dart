@@ -14,6 +14,9 @@ class _SettingsPageState extends State<SettingsPage> {
   int? kilo = 0;
   double vki = 0.0;
   double su_ihtiyac = 0.0;
+  String? isim = "";
+  String? soyisim = "";
+  int? yas = 0;
   String _imagePath = "";
 
   @override
@@ -27,6 +30,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
     double? vkikayit = prefs.getDouble('vki');
     double? sukayit = prefs.getDouble('su');
+    isim = prefs.getString('isim');
+    soyisim = prefs.getString('soyisim');
+    yas = prefs.getInt('yas');
 
     print('vki gelen: $vkikayit');
     print('su gelen: $sukayit');
@@ -45,11 +51,59 @@ class _SettingsPageState extends State<SettingsPage> {
         appBar: AppBar(
           title: Text('AYARLAR'),
         ),
-        body: Center(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               //! Kullanıcıdan veri alma işlemleri için kullanılır.
               //! Kayıt ol, giriş yap sayfalarında sık sık karşımıza çıkar.
+              TextField(
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                onChanged: (String deger) {
+                  isim = deger;
+                  print('TextFieldden gelen değer onChanged isim: $deger');
+                },
+                cursorColor: Colors.black,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: 'Adınız',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                keyboardType: TextInputType.text,
+                onChanged: (String deger) {
+                  soyisim = deger;
+                  print('TextFieldden gelen değer onChanged soyisim: $deger');
+                },
+                cursorColor: Colors.black,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: 'Soyadınız',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+                onChanged: (String deger) {
+                  yas = int.tryParse(deger);
+                  print('TextFieldden gelen değer onChanged yas: $deger');
+                },
+                cursorColor: Colors.black,
+                maxLines: 1,
+                maxLength: 3,
+                decoration: InputDecoration(
+                  hintText: 'Yaşınız',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 16),
+
               TextField(
                 //! İlgili TextFieldin klavyesini otomatik olarak açar
                 autofocus: true,
@@ -76,6 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     hintText: 'Boyunuz',
                     border: OutlineInputBorder()),
               ),
+              SizedBox(height: 16),
               TextField(
                 maxLength: 3,
                 //! Filtreleme alanlarında kullanılabilir bir özellik.
@@ -162,6 +217,20 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void saveData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('isim', isim ?? '');
+    print('isim kaydedildi.');
+
+    prefs.setString('soyisim', soyisim ?? '');
+    print('soyad kaydedildi.');
+
+    prefs.setInt('yas', yas ?? 0);
+    print('yas kaydedildi.');
+
+    prefs.setInt('boy', boy ?? 0);
+    print('boy kaydedildi.');
+
+    prefs.setInt('kilo', kilo ?? 0);
+    print('kilo kaydedildi.');
 
     // Double değer kaydetme
     prefs.setDouble('vki', vki);

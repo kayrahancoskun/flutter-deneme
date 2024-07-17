@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'flutter demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 14, 27, 174)),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
@@ -36,6 +37,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String isim = '';
+  String soyisim = '';
+  int yas = 0;
+  int boy = 0;
+  int kilo = 0;
+
   double _counter = 0;
   String _imagePath = "images/elmali_turta4.png";
   double hedeflenen = 0.0;
@@ -67,6 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    isim = prefs.getString('isim') ?? '';
+    soyisim = prefs.getString('soyisim') ?? '';
+    yas = prefs.getInt('yas') ?? 0;
+    boy = prefs.getInt('boy') ?? 0;
+    kilo = prefs.getInt('kilo') ?? 0;
+
     double? vkikayit = prefs.getDouble('vki');
     double? sukayit = prefs.getDouble('su');
     _counter = prefs.getDouble('icilen_su')!;
@@ -107,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -116,32 +129,42 @@ class _MyHomePageState extends State<MyHomePage> {
                       '/' +
                       (hedeflenen * 1000).toStringAsFixed(0),
                   style: TextStyle(
-                    color: Color.fromARGB(255, 4, 255, 0),
-                  )),
-              Row(
+                      fontSize: 20,
+                      color: Color.fromARGB(138, 25, 0, 255),
+                      fontWeight: FontWeight.bold)),
+              Column(
                 children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [sonuc, sonuc],
-                        colors: <Color>[
-                          Color.fromARGB(255, 255, 255, 255),
-                          Color.fromARGB(255, 12, 138, 255)
+                  Row(children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [sonuc, sonuc],
+                          colors: <Color>[
+                            Color.fromARGB(255, 255, 255, 255),
+                            Color.fromARGB(255, 12, 138, 255)
+                          ],
+                        )),
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        margin: EdgeInsets.all(50),
+                        // alignment: Alignment(-0.9, 0.9),
+                        child: Image.asset(
+                          "images/e.png",
+                        )),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text("İsim:" + isim),
+                          Text("Soyisim:" + soyisim),
+                          Text("Yaş:" + yas.toString()),
+                          Text("Boy:" + boy.toString()),
+                          Text("Kilo:" + kilo.toString()),
+                          Text("vki:" + vki.toStringAsFixed(2)),
                         ],
-                      )),
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      margin: EdgeInsets.all(50),
-                      // alignment: Alignment(-0.9, 0.9),
-                      child: Image.asset(
-                        "images/e.png",
-                      )),
-                  Container(
-                    child: Column(
-                      children: [Text("vki:" + vki.toStringAsFixed(2))],
+                      ),
                     ),
-                  )
+                  ])
                 ],
               ),
 
