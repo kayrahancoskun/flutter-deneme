@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _imagePath = "images/elmali_turta4.png";
   double hedeflenen = 0.0;
   double sonuc = 0.0;
+  double vki = 0.0;
   void _incrementCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -64,25 +65,12 @@ class _MyHomePageState extends State<MyHomePage> {
     loadData();
   }
 
-  void _setImageBasedOnVki(double vki) {
-    setState(() {
-      if (vki < 18.5) {
-        _imagePath = "images/zayif.png";
-      } else if (vki >= 18.5 && vki < 24.9) {
-        _imagePath = "images/normal.png";
-      } else if (vki >= 25 && vki < 29.9) {
-        _imagePath = "images/kilolu.png";
-      } else {
-        _imagePath = "images/obez.png";
-      }
-    });
-  }
-
   void loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     double? vkikayit = prefs.getDouble('vki');
     double? sukayit = prefs.getDouble('su');
     _counter = prefs.getDouble('icilen_su')!;
+    vki = prefs.getDouble('vki')!;
 
     print('vki gelen: $vkikayit');
     print('su gelen: $sukayit');
@@ -130,28 +118,32 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                     color: Color.fromARGB(255, 4, 255, 0),
                   )),
-              Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [sonuc, sonuc],
-                    colors: <Color>[
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 12, 138, 255)
-                    ],
-                  )),
-                  width: MediaQuery.of(context).size.width * 0.100,
-                  height: MediaQuery.of(context).size.height * 0.100,
-                  margin: EdgeInsets.all(50),
-                  // alignment: Alignment(-0.9, 0.9),
-                  child: Text(
-                    "flutter container",
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
-                  )),
+              Row(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [sonuc, sonuc],
+                        colors: <Color>[
+                          Color.fromARGB(255, 255, 255, 255),
+                          Color.fromARGB(255, 12, 138, 255)
+                        ],
+                      )),
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      margin: EdgeInsets.all(50),
+                      // alignment: Alignment(-0.9, 0.9),
+                      child: Image.asset(
+                        "images/e.png",
+                      )),
+                  Container(
+                    child: Column(
+                      children: [Text("vki:" + vki.toStringAsFixed(2))],
+                    ),
+                  )
+                ],
+              ),
 
               // Container
             ]),
